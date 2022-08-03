@@ -50,21 +50,22 @@ import javax.persistence.*;
 public class Userdetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer userId;
     private String emailId;
     private String name;
     private String mobile_no;
     private String password;
-
+    private String confirmpassword;
+    private String gender;
     public Userdetails() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getEmailId() {
@@ -99,20 +100,42 @@ public class Userdetails {
         this.password = password;
     }
 
-    public Userdetails(String emailId, String name, String mobile_no, String password) {
-        this.emailId = emailId;
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getConfirmpassword() {
+        return confirmpassword;
+    }
+
+    public void setConfirmpassword(String confirmpassword) {
+        this.confirmpassword = confirmpassword;
+    }
+
+    public Userdetails(Integer userId, String name, String emailId,String gender, String mobile_no, String password,String confirmpassword) {
+        this.userId=userId;
         this.name = name;
+        this.emailId = emailId;
+        this.gender=gender;
         this.mobile_no = mobile_no;
         this.password = password;
+        this.confirmpassword = confirmpassword;
     }
 
     @Override
     public String toString() {
         return "entity{" +
-                "email='" + emailId + '\'' +
+                "id='" + userId + '\'' +
+                ",email='" + emailId + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile_no=" + mobile_no +
+                ", gender=" + gender +
                 ", password='" + password + '\'' +
+                ", confirmpassword='" + confirmpassword + '\'' +
                 '}';
     }
 }

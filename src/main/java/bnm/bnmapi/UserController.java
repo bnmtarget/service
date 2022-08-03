@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @CrossOrigin(origins = "*")
@@ -48,10 +49,46 @@ public class UserController {
         }
 
     }
-//    @PostMapping("/user")
-//    public Userdetails createUser(@RequestBody Userdetails userdetails) {
-//        userdetails.setId(98);
-//        return userService.createUser(userdetails);
-//
-//    }
+    @GetMapping("/user/id/{userId}")
+    public Optional<Userdetails> getUserById(@PathVariable("userId") Integer userId) {
+
+        try {
+            return userService.getUserByUserId(userId);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
+    }
+    @GetMapping("/user/{emailId}/{password}")
+    public Optional<Userdetails> getUserByEmailIdAndPassword(@PathVariable("emailId") String emailId,@PathVariable("password") String password) {
+       try {
+           return userService.getUserByEmailIdAndPassword(emailId, password);
+       }catch (UserNotFoundException e){
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+       }
+
+    }
+
+    @PostMapping("/user")
+  public Userdetails createUser(@RequestBody Userdetails userdetails) {
+            userdetails.setUserId(Integer.parseInt(UUID.randomUUID().toString()));
+        return userService.createUser(userdetails);
+
+    }
+    @PutMapping("/user/{emailId}")
+    public Userdetails updateUserByEmailId(@PathVariable("emailId") String emailId, @RequestBody Userdetails userdetails) {
+        try {
+            return userService.updateUserByEmailId(emailId, userdetails);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+        }
+    }
+    @PutMapping("/user/password/{emailId}")
+    public Userdetails updatePasswordByEmailId(@PathVariable("emailId") String emailId, @RequestBody String password ) {
+        try {
+            return userService.updatePasswordByEmailId(emailId, password);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+        }
+    }
 }

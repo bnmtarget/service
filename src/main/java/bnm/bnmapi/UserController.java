@@ -12,17 +12,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@CrossOrigin(origins = "*")
+
+
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
     private UserService userService;
- public UserController(UserService userService)
- {
-     this.userService=userService;
- }
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/hello")
     public String sayHello() {
@@ -30,13 +32,10 @@ public class UserController {
     }
 
 
-
     @GetMapping("/user")
     public List<Userdetails> getAll() {
         return userService.getAll();
     }
-
-
 
 
     @GetMapping("/user/{emailId}")
@@ -46,9 +45,11 @@ public class UserController {
             return userService.getUserByEmailId(emailId);
         } catch (UserNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
         }
 
     }
+
     @GetMapping("/user/id/{userId}")
     public Optional<Userdetails> getUserById(@PathVariable("userId") Integer userId) {
 
@@ -59,30 +60,53 @@ public class UserController {
         }
 
     }
-    @GetMapping("/user/{emailId}/{password}")
-    public Optional<Userdetails> getUserByEmailIdAndPassword(@PathVariable("emailId") String emailId,@PathVariable("password") String password) {
-       try {
-           return userService.getUserByEmailIdAndPassword(emailId, password);
-       }catch (UserNotFoundException e){
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-       }
 
-    }
+//    @GetMapping("/user/{emailId}/{password}")
+//    public Optional<Userdetails> getUserByEmailIdAndPassword(@PathVariable("emailId") String emailId, @PathVariable("password") String password) {
+//        try {
+//            return userService.getUserByEmailIdAndPassword(emailId, password);
+//        } catch (UserNotFoundException e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        }
+//
+//    }
+
 
     @PostMapping("/user")
-  public Userdetails createUser(@RequestBody Userdetails userdetails) {
-            userdetails.setUserId(Integer.parseInt(UUID.randomUUID().toString()));
+    public Userdetails createUser(@RequestBody Userdetails userdetails) {
+        userdetails.setUserId(Integer.parseInt(UUID.randomUUID().toString()));
         return userService.createUser(userdetails);
 
     }
+
     @PutMapping("/user/{emailId}")
     public Userdetails updateUserByEmailId(@PathVariable("emailId") String emailId, @RequestBody Userdetails userdetails) {
         try {
             return userService.updateUserByEmailId(emailId, userdetails);
         } catch (UserNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    @PostMapping("/user/verification")
+    public String passwordVerification(@RequestBody LoginRequest loginRequest) throws UserNotFoundException {
+        try {
+            Optional<Userdetails> user = userService.getUserByEmailId(loginRequest.getEmailId());
+            if (!user.isEmpty()) {
+                Userdetails userdetails = user.get();
+                String password = userdetails.getPassword();
+                if (password.equals(loginRequest.getPassword())) {
+                    return "Valid user";
+                }
+            }
+            return "couldn't verify";
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+
+
     @PutMapping("/user/password/{emailId}")
     public Userdetails updatePasswordByEmailId(@PathVariable("emailId") String emailId, @RequestBody String password ) {
         try {

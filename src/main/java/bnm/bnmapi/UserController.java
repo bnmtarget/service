@@ -21,7 +21,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -35,6 +34,10 @@ public class UserController {
     @GetMapping("/user")
     public List<Userdetails> getAll() {
         return userService.getAll();
+    }
+    @GetMapping("/userprofile")
+    public List<UserProfile> getProfile() {
+        return userService.getProfile();
     }
 
 

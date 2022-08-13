@@ -15,11 +15,16 @@ public class UserService {
     @Autowired
     private UserRepository userrepos;
 
+    @Autowired
+   private ProfileRepo profileRepo;
 
 
     //getAllGroups
     public List<Userdetails> getAll(){
         return userrepos.findAll();
+    }
+    public List<UserProfile> getProfile(){
+        return  profileRepo.findAll();
     }
     public Userdetails createUser(Userdetails userdetails) {
         return userrepos.save(userdetails);

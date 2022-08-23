@@ -9,4 +9,5 @@ import java.util.Optional;
 @EnableAutoConfiguration
 @Repository
 public interface ProfileRepo extends JpaRepository<UserProfile,String> {
+    Optional<UserProfile> findByEmailId(String emailId);
 }

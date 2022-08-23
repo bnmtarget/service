@@ -1,5 +1,6 @@
 package bnm.bnmapi;
 
+import bnm.bnmapi.db.UserDetailsDAO;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,11 +10,11 @@ import java.util.Optional;
 
 @EnableAutoConfiguration
 @Repository
-public interface UserRepository extends JpaRepository<Userdetails,String> {
-    Optional<Userdetails> findByEmailId(String emailId);
+public interface UserRepository extends JpaRepository<UserDetailsDAO,String> {
+   Optional<UserDetailsDAO> findByEmail(String email);
 
-    Optional<Userdetails> findByEmailIdAndPassword(String emailId,String password);
+  //  Optional<Userdetails> findByEmailIdAndPassword(String emailId,String password);
 
 
-    Optional<Userdetails> findByUserId(Integer userId);
+   // Optional<Userdetails> findByUserId(Integer userId);
 }

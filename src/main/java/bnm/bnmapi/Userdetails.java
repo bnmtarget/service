@@ -45,13 +45,13 @@ package bnm.bnmapi;
 import javax.persistence.*;
 
 
-@Entity
-@Table(name = "profile")
+
 public class Userdetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
-    private String emailId;
+    @Column(unique = true)
+    private String email;
     private String name;
     private String mobile_no;
     private String password;
@@ -68,12 +68,12 @@ public class Userdetails {
         this.userId = userId;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -116,10 +116,10 @@ public class Userdetails {
         this.confirmpassword = confirmpassword;
     }
 
-    public Userdetails(Integer userId, String name, String emailId,String gender, String mobile_no, String password,String confirmpassword) {
+    public Userdetails(Integer userId, String name, String email,String gender, String mobile_no, String password,String confirmpassword) {
         this.userId=userId;
         this.name = name;
-        this.emailId = emailId;
+        this.email = email;
         this.gender=gender;
         this.mobile_no = mobile_no;
         this.password = password;
@@ -130,7 +130,7 @@ public class Userdetails {
     public String toString() {
         return "entity{" +
                 "id='" + userId + '\'' +
-                ",email='" + emailId + '\'' +
+                ",email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile_no=" + mobile_no +
                 ", gender=" + gender +

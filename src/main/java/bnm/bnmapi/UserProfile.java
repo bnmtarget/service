@@ -8,6 +8,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+    private String name;
     private String emailId;
     private String prefferedlocations;
     private String prefferedtimings;
@@ -41,6 +42,14 @@ public class UserProfile {
 
     public void setMobile_no(String mobile_no) {
         this.mobile_no = mobile_no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPrefferedlocations() {
@@ -91,8 +100,9 @@ public class UserProfile {
         this.gender = gender;
     }
 
-    public UserProfile(Integer userId,String emailId,String mobile_no,String prefferedlocations,String preffereddays,String prefferedstores,String prefferedtimings,String address,String gender) {
+    public UserProfile(Integer userId,String name,String emailId,String mobile_no,String prefferedlocations,String preffereddays,String prefferedstores,String prefferedtimings,String address,String gender) {
         this.userId = userId;
+        this.name=name;
         this.emailId = emailId;
         this.mobile_no=mobile_no;
         this.prefferedlocations = prefferedlocations;
@@ -106,6 +116,7 @@ public class UserProfile {
     public String toString() {
         return "entity{" +
                 "id='" + userId + '\'' +
+                ",name='" + name + '\'' +
                 ",email='" + emailId + '\'' +
                 ",mobile_no='" + mobile_no + '\'' +
                 ", preffered_locations='" + prefferedlocations + '\'' +

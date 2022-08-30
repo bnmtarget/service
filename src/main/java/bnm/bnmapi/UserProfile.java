@@ -2,14 +2,14 @@ package bnm.bnmapi;
 import javax.persistence.*;
 
 
-@Entity
-@Table(name = "userprofile")
+//@Entity
+//@Table(name = "userprofile")
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
     private String name;
-    private String emailId;
+    private String email;
     private String prefferedlocations;
     private String prefferedtimings;
     private String preffereddays;
@@ -24,12 +24,12 @@ public class UserProfile {
         return userId;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setUserId(Integer userId) {
@@ -76,11 +76,11 @@ public class UserProfile {
         this.preffereddays = preffereddays;
     }
 
-    public String getPrefferedStores() {
+    public String getPrefferedstores() {
         return prefferedstores;
     }
 
-    public void setPrefferedStores(String prefferedstores) {
+    public void setPrefferedstores(String prefferedstores) {
         this.prefferedstores = prefferedstores;
     }
 
@@ -100,10 +100,10 @@ public class UserProfile {
         this.gender = gender;
     }
 
-    public UserProfile(Integer userId,String name,String emailId,String mobile_no,String prefferedlocations,String preffereddays,String prefferedstores,String prefferedtimings,String address,String gender) {
+    public UserProfile(Integer userId,String name,String email,String mobile_no,String prefferedlocations,String preffereddays,String prefferedstores,String prefferedtimings,String address,String gender) {
         this.userId = userId;
         this.name=name;
-        this.emailId = emailId;
+        this.email = email;
         this.mobile_no=mobile_no;
         this.prefferedlocations = prefferedlocations;
         this.prefferedtimings = prefferedtimings;
@@ -117,7 +117,7 @@ public class UserProfile {
         return "entity{" +
                 "id='" + userId + '\'' +
                 ",name='" + name + '\'' +
-                ",email='" + emailId + '\'' +
+                ",email='" + email + '\'' +
                 ",mobile_no='" + mobile_no + '\'' +
                 ", preffered_locations='" + prefferedlocations + '\'' +
                 ", preffered_timings=" + prefferedtimings +

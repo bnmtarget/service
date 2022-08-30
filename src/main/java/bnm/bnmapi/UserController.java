@@ -2,6 +2,7 @@ package bnm.bnmapi;
 
 
 import bnm.bnmapi.db.UserDetailsDAO;
+import bnm.bnmapi.db.UserProfileDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
-
-
 
 
 @RestController
@@ -39,7 +36,7 @@ public class UserController {
         return userService.getAll();
     }
     @GetMapping("/userprofile")
-    public List<UserProfile> getProfile() {
+    public List<UserProfileDAO> getProfile() {
         return userService.getProfile();
     }
 
@@ -55,11 +52,11 @@ public class UserController {
         }
 
     }
-    @GetMapping("/profile/{emailId}")
-    public Optional<UserProfile> getProfileByEmailId(@PathVariable("emailId") String emailId) {
+    @GetMapping("/profile/{email}")
+    public Optional<UserProfileDAO> getProfileByEmail(@PathVariable("email") String email) {
 
         try {
-            return userService.getProfileByEmailId(emailId);
+            return userService.getProfileByEmail(email);
         } catch (UserNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 
@@ -102,15 +99,29 @@ public class UserController {
  }
 
     }
+    @PostMapping("/profile/create")
+    public String createProfile(@RequestBody UserProfile userProfile) throws SQLIntegrityConstraintViolationException{
+        try {
+            userProfile.setUserId((int) (Math.random() * 100));
+            userService.createProfile(userProfile);
+            return "user created successfully";
+        }
+        catch(Exception e)
+        {
+            return "Found duplicate entry";
+        }
 
-//    @PutMapping("/user/{emailId}")
-//    public Userdetails updateUserByEmailId(@PathVariable("emailId") String emailId, @RequestBody Userdetails userdetails) {
-//        try {
-//            return userService.updateUserByEmailId(emailId, userdetails);
-//        } catch (UserNotFoundException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-//        }
-//    }
+    }
+
+    @PutMapping("/updateprofile/{email}")
+    public String updateProfileByEmail(@PathVariable("email") String email, @RequestBody UserProfile userProfile) {
+        try {
+            userService.updateProfileByEmail(email, userProfile);
+            return "profile updated";
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
 //    @PostMapping("/user/verification")
 //    public String passwordVerification(@RequestBody LoginRequest loginRequest) throws UserNotFoundException {

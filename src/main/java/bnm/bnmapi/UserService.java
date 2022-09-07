@@ -16,9 +16,13 @@ public class UserService {
 
     @Autowired
     private UserRepository userrepos;
+    UserService(){};
+    //added the line below for test
+    UserService(UserRepository userepository){this.userrepos=userepository;};
 
     @Autowired
    private ProfileRepo profileRepo;
+    UserService(ProfileRepo profileRepos){this.profileRepo=profileRepos;};
 
 
     //getAllGroups
@@ -48,7 +52,8 @@ public class UserService {
         try {
             UserProfileDAO dao = ProfileMapper.convertToProfileEntity(userProfile);
             profileRepo.save(dao);
-            return "Profile created successfully";
+           return "Profile created successfully";
+
         }
         catch(Exception e)
         { System.out.println("duplicate key found");
